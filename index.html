@@ -3,9 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>문서 제목</title>
+    <title>메인 화면</title>
+    <style>
+        /* CSS 스타일링: HTML 요소의 디자인을 담당합니다. */
+        
+        /* 전체 페이지(body)를 화면에 꽉 채우고, 내용을 수직/수평 중앙에 정렬합니다. */
+        body {
+            display: flex;
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center;    /* 세로 중앙 정렬 */
+            height: 100vh;          /* 뷰포트(화면) 전체 높이 사용 */
+            margin: 0;              /* 기본 마진 제거 */
+            background-color: #f4f4f9; /* 보기 편하도록 배경색 추가 */
+            font-family: 'Malgun Gothic', sans-serif; /* 기본 폰트 설정 */
+        }
+
+        /* 링크들을 담을 컨테이너 */
+        .link-container {
+            text-align: center;
+        }
+
+        /* 링크(a 태그)를 버튼처럼 꾸미기 */
+        .link-button {
+            display: block; /* 링크를 한 줄 전체 차지하도록 변경 */
+            width: 250px;   /* 버튼의 너비 */
+            padding: 15px;  /* 내부 여백 */
+            margin: 15px 0; /* 버튼 사이의 외부 여백 (위아래) */
+            background-color: #007bff; /* 배경색 */
+            color: white;             /* 글자색 */
+            text-decoration: none;    /* 밑줄 제거 */
+            border-radius: 8px;       /* 모서리를 둥글게 */
+            font-size: 18px;          /* 글자 크기 */
+            transition: background-color 0.3s; /* 마우스 올렸을 때 색상 변경을 부드럽게 */
+        }
+
+        /* 마우스를 올렸을 때 버튼 색상 변경 */
+        .link-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  Hello World
+
+    <div class="link-container">
+        <a href="login.html" class="link-button">1. 로그인 화면</a>
+        <a href="user_main.html" class="link-button">2. 직원용 메인화면</a>
+        <a href="customer_main.html" class="link-button">3. 고객용 메인화면</a>
+    </div>
+
 </body>
 </html>
