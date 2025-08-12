@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기업 로그인 페이지</title>
+
+    <!-- Bulma CSS CDN 링크 -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"> -->
+    <link rel="stylesheet" href="bulma.min.css">
+
+    <!-- Font Awesome 아이콘을 위한 CDN -->
+    <!-- <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script> -->
+    <script src="all.js"></script>
+
+    <!-- Google Fonts (Noto Sans KR) 적용 -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet"> -->
+
+    <style>
+        /* @font-face 규칙을 사용하여 로컬 폰트 선언 */
+        @font-face {
+            font-family: 'Noto Sans KR';
+            /* CSS에서 사용할 폰트 이름 */
+            src: url('fonts/NotoSans-Regular.woff2') format('woff2'),
+                /* 폰트 파일 경로 */
+                url('fonts/NotoSans-Regular.woff') format('woff');
+            font-weight: 400;
+            /* 폰트 두께 */
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Noto Sans KR';
+            src: url('fonts/NotoSans-Bold.woff2') format('woff2'),
+                url('fonts/NotoSans-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* 기본 스타일 및 배경 색상 */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow: hidden;
+            /* 전체 페이지 스크롤 방지 */
+        }
+
+        .hero.is-fullheight {
+            background: linear-gradient(to top right, #00d1b2, #FFFFCC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* 메인 컨테이너 (로고 + 카드) */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 1080px;
+            /* 가로 사이즈 증가 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 로고 섹션 스타일 */
+        .company-logo {
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-right: 20px;
+        }
+
+        .company-logo img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        /* 로그인 카드 스타일 */
+        .login-card {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            width: 100%;
+        }
+
+        .login-card .title,
+        .login-card .subtitle {
+            color: #363636;
+        }
+
+        .login-card .label {
+            color: #4a4a4a;
+            font-size: 0.9rem;
+        }
+
+        .login-card .card-content {
+            position: relative;
+            /* 하단 액션 영역을 위한 공간 확보 */
+        }
+
+        /* 입력 필드 스타일 */
+        .control .input {
+            background-color: white;
+            color: #363636;
+            border-color: #dbdbdb;
+            font-size: 1.1rem;
+        }
+
+        /* 인증 방식 토글 버튼 */
+        .auth-toggle-switch {
+            display: flex;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .auth-toggle-switch label {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: #f5f5f5;
+            color: #4a4a4a;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 0;
+            /* 높이 축소 */
+            font-size: 0.9rem;
+        }
+
+        .auth-toggle-switch label .icon {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .auth-toggle-switch input[type="radio"] {
+            display: none;
+        }
+
+        .auth-toggle-switch input[type="radio"]:checked+label {
+            background-color: #00d1b2;
+            color: white;
+            font-weight: 700;
+        }
+
+        /* 기기 정보 확인 링크 스타일 */
+        #deviceInfoLink {
+            position: absolute;
+            bottom: 1rem;
+            right: 0;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #363636;
+            width: 5rem;
+            height: 1.7rem;
+        }
+
+        #deviceInfoLink:hover {
+            background-color: #00d1b2;
+            color: white;
+        }
+
+        /* 접속 환경 토글 스위치 */
+        .location-toggle-field {
+            display: flex;
+            align-items: end;
+            justify-content: right;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .location-toggle-field .label {
+            margin-bottom: 0;
+            font-size: 0.8rem;
+            color: #4a4a4a;
+            font-weight: 600;
+        }
+
+        .location-toggle-field .control {
+            display: flex;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 120px;
+        }
+
+        .location-toggle-field .control label {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: #f5f5f5;
+            color: #969696;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 0;
+            font-size: 0.75rem;
+        }
+
+        .location-toggle-field .control label .icon {
+            margin-right: 5px;
+            font-size: 0.8rem;
+        }
+
+        .location-toggle-field .control input[type="radio"] {
+            display: none;
+        }
+
+        .location-toggle-field .control input[type="radio"]:checked+label {
+            background-color: #00d1b2;
+            color: white;
+            font-weight: 700;
+        }
+
+        .location-toggle-field .control label:first-of-type {
+            border-right: 1px solid #dbdbdb;
+        }
+
+        /* 로그인 버튼 스타일 */
+        .button.is-primary.is-fullwidth {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 10px 0;
+            /* 높이 축소 */
+            border-radius: 6px;
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: white;
+        }
+
+        .button.is-primary.is-fullwidth:hover {
+            background-color: #00c4a7;
+            border-color: #00c4a7;
+        }
+
+        /* 안내 전화번호 스타일 */
+        .contact-info {
+            text-align: center;
+            margin-top: -1rem;
+            color: #363636;
+            font-size: 0.85rem;
+        }
+
+        /* --- 공지사항 섹션 스타일 --- */
+        .notice-section {
+            position: absolute;
+            bottom: 20px;
+            width: 90%;
+            max-width: 720px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notice-container-wrapper {
+            width: 100%;
+            overflow: hidden;
+            padding: 0 40px;
+            box-sizing: border-box;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent);
+            mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent);
+        }
+
+        .notice-container {
+            display: flex;
+            scroll-behavior: smooth;
+            overflow-x: auto;
+            cursor: grab;
+            scroll-snap-type: x mandatory;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            margin: 0 -40px;
+        }
+
+        .notice-container.active {
+            cursor: grabbing;
+            scroll-behavior: auto;
+        }
+
+        .notice-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .notice-card {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            padding: 15px 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .notice-title {
+            font-weight: 700;
+            color: #363636;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        .notice-content {
+            font-size: 0.8rem;
+            color: #4a4a4a;
+            line-height: 1.5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 좌우 네비게이션 버튼 */
+        .notice-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s, opacity 0.3s;
+            opacity: 0.7;
+        }
+
+        .notice-nav:hover {
+            background-color: white;
+            opacity: 1;
+        }
+
+        .notice-nav.prev {
+            left: -40px;
+        }
+
+        .notice-nav.next {
+            right: -40px;
+        }
+
+        .notice-nav i {
+            color: #363636;
+        }
+
+        /* 모달 공통 스타일 */
+        .modal-card-body .content p {
+            margin-bottom: 0.5em;
+        }
+
+        .modal-card-body .content p:last-child {
+            margin-bottom: 0;
+        }
+
+        #noticeDetailModal .modal-card-body {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* 반응형 디자인 */
+        @media screen and (max-width: 1100px) {
+
+            /* 분기점 수정 */
+            .main-container {
+                max-width: 960px;
+            }
+        }
+
+        @media screen and (max-width: 992px) {
+            .main-container {
+                max-width: 768px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                max-width: 100%;
+            }
+
+            .columns {
+                flex-direction: column;
+            }
+
+            .company-logo {
+                padding-right: 0;
+                padding-bottom: 0;
+            }
+
+            .company-logo img {
+                max-width: 200px;
+                margin-bottom: 10px;
+            }
+
+            .login-card {
+                padding: 30px;
+            }
+
+            .location-toggle-field {
+                position: static;
+                transform: none;
+                justify-content: center;
+                margin-top: 15px;
+            }
+
+            #deviceInfoLink {
+                bottom: 15px;
+                right: 0px;
+            }
+
+            .notice-section {
+                max-width: 100%;
+                width: 100%;
+                bottom: 10px;
+            }
+
+            .notice-nav {
+                display: none;
+            }
+
+            .notice-container-wrapper {
+                padding: 0 10px;
+                -webkit-mask-image: linear-gradient(to right, transparent, black 10px, black calc(100% - 10px), transparent);
+                mask-image: linear-gradient(to right, transparent, black 10px, black calc(100% - 10px), transparent);
+            }
+
+            .notice-container {
+                margin: 0 -10px;
+            }
+
+            .notice-card {
+                padding: 15px 10px;
+            }
+        }
+
+        /* 추가 항목 */
+
+        .has-icons-left:focus-within .input {
+            box-shadow: 0 0 0 0.125em #4de9b5;
+        }
+
+        /* 행번 input의 아이콘 색을 포커스 상태에서 초록색 고정 */
+        .has-icons-left input:focus+.icon .fa-user,
+        .has-icons-left input:focus+.icon .fa-phone {
+            color: #00d1b2;
+        }
+
+        /* 포커스 해제 시에도 파란색 대신 기본 회색으로 바로 변경 */
+        .has-icons-left input:not(:focus)+.icon .fa-user,
+        .has-icons-left input:not(:focus)+.icon .fa-phone {
+            color: #ccc !important;
+            /* 원하는 기본 색 */
+        }
+
+        /* 숨기기 */
+        .hide-field {
+            opacity: 0;
+            transition: 0.5s all;
+        }
+
+        .delete-field {
+            display: none;
+        }
+
+        .show-field {
+            opacity: 1;
+            transition: 0.5s all;
+        }
+
+        .create-field {
+            display: block;
+        }
+
+        #bioGoBackBtn, #adminGoBackBtn, #otpGoBackBtn {
+            top: 1.5rem;
+            position: absolute;
+        }
+
+        .bio-login-field {
+            padding-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero is-fullheight">
+        <div class="hero-body" style="width: 100%; align-items: center;">
+            <div class="container main-container">
+                <div class="columns is-vcentered">
+                    <!-- 왼쪽: 기업 로고 섹션 -->
+                    <div class="column is-half company-logo" style="margin-top: -5rem;">
+                        <img src="bank_logo_white.png"
+                            alt="DGB 로고">
+                        <p style="font-size: 2rem; font-weight: bold; color: #ffffff; margin-top: -4rem;">태블릿 브랜치 시스템
+                        </p>
+                    </div>
+
+                    <!-- 오른쪽: 로그인 카드 섹션 -->
+                    <div class="column is-half">
+                        <div class="card login-card" style="height: 26.5rem; padding: 1rem">
+                            <div class="card-content">
+                                
+
+                                <!-- 행번 입력 -->
+                                <div class="initial-login-field">
+                                    <p class="title has-text-centered is-3" style="margin: 0 0 1rem 0">로그인</p>
+                                    <div class="field">
+                                        <label class="label" style="font-size: 1.1rem;">행번</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="text"
+                                                style="height: 2.7rem; display: flex; justify-content: center;"
+                                                placeholder="사용자 행번" id="userIdInput">
+                                            <span class="icon is-small is-left" style="margin: 0.25rem 0 0 0.2rem;"><i
+                                                    class="fas fa-user" style="font-size: 1.2rem;"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label" style="font-size: 1.1rem;">인증 방식</label>
+                                        <div class="control auth-toggle-switch">
+                                            <input type="radio" id="auth_bio" name="auth_method" value="bio" checked>
+                                            <label for="auth_bio">
+                                                <span class="icon is-small"><i class="fas fa-fingerprint"></i></span>
+                                                <span>생체인증</span>
+                                            </label>
+                                            <input type="radio" id="auth_otp" name="auth_method" value="otp">
+                                            <label for="auth_otp">
+                                                <span class="icon is-small"><i class="fas fa-shield-alt"></i></span>
+                                                <span>OTP 인증</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <p class="control">
+                                            <button class="button is-primary is-fullwidth is-medium"
+                                                id="loginButton">로그인</button>
+                                        </p>
+                                    </div>
+
+                                    <div class="field location-toggle-field">
+                                        <label class="label">접속 환경:</label>
+                                        <div class="control">
+                                            <input type="radio" id="location_in" name="location" value="in" checked>
+                                            <label for="location_in">
+                                                <span class="icon is-small"><i class="fas fa-home"></i></span>
+                                                <span>점내</span>
+                                            </label>
+                                            <input type="radio" id="location_out" name="location" value="out">
+                                            <label for="location_out">
+                                                <span class="icon is-small"><i class="fas fa-globe"></i></span>
+                                                <span>점외</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 생체 인증 -->
+                                <div class="bio-login-field  hide-field delete-field ">
+                                    <span id="bioGoBackBtn"><i class="fas fa-arrow-left"
+                                            style="cursor: pointer;"></i></span>
+                                    <p class="title has-text-centered is-4" style="margin-top: -1rem;">생체 인증</p>
+                                    
+                                        <label class="label has-text-centered" style="font-weight: normal;">인증앱을 실행하여 QR 코드를 스캔한 후<br>등록된 FIDO 인증장치로 인증해주세요.</label>
+                                        <div class="control has-icons-left">
+                                            <div
+                                                style="width: 8rem; height: 8rem; display: flex; justify-content: center; align-items: center; margin: auto;">
+                                                <img alt="qr" src="./IMG_001.jpg"></div>
+                                        </div>
+                                    <p style="text-align: center; margin: 0 0 2.5rem 0;">남은 시간: 03:00</p>
+                                    <div class="field">
+                                        <p class="control">
+                                            <button class="button is-fullwidth is-medium"
+                                                style="background: #b7b7b7; margin-top: -20px;">확인 중</button>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- OTP 인증 -->
+                                <div class="otp-login-field  hide-field delete-field ">
+                                    <span id="otpGoBackBtn"><i class="fas fa-arrow-left"
+                                            style="cursor: pointer;"></i></span>
+                                    <p class="title has-text-centered is-4" style="margin-bottom: 3rem;">OTP 인증</p>
+                                    <div class="field">
+                                        <label class="label has-text-centered" style="font-weight: normal; margin-bottom: 3rem;">인증앱을 실행하여 생성된 OTP 인증번호를 입력한 후,<br> 확인 버튼을 눌러 진행해주세요.</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="text"
+                                                style="height: 2.7rem; display: flex; justify-content: center;"
+                                                placeholder="OTP 인증번호" id="otpInput">
+                                            <span class="icon is-small is-left" style="margin: 0.25rem 0 0 0.2rem;"><i
+                                                    class="fas fa-key" style="font-size: 1.2rem;"></i></span>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: -0.5rem;">남은 시간: 03:00</p>
+                                    <div class="field">
+                                        <p class="control">
+                                            <button class="button is-primary is-fullwidth is-medium"
+                                                id="otpCheckBtn" style="margin-top: 2rem;">확인</button>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- 행번/비밀번호 로그인 -->
+                                <div class="admin-login-field hide-field delete-field ">
+                                    <span id="adminGoBackBtn"><i class="fas fa-arrow-left"
+                                            style="cursor: pointer;"></i></span>
+                                    <div class="field">
+                                    <p class="title has-text-centered is-4" style="margin-bottom: 3rem;">행번 로그인</p>
+                                        <label class="label" style="font-size: 1.1rem;">행번</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="text"
+                                                style="height: 2.7rem; display: flex; justify-content: center;"
+                                                placeholder="행번" id="adminIdInput">
+                                            <span class="icon is-small is-left" style="margin: 0.25rem 0 0 0.2rem;"><i
+                                                    class="fas fa-user" style="font-size: 1.3rem;"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label" style="font-size: 1.1rem;">비밀번호</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="password"
+                                                style="height: 2.7rem; display: flex; justify-content: center;"
+                                                placeholder="비밀번호" id="adminPwdInput">
+                                            <span class="icon is-small is-left" style="margin: 0.25rem 0 0 0.2rem;"><i
+                                                    class="fas fa-user" style="font-size: 1.3rem;"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <p class="control">
+                                            <button class="button is-primary is-fullwidth is-medium"
+                                                id="adminLoginButton" style="margin: 2rem 0 -0.5rem 0;">로그인</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 공통 부분 -->
+                            <a href="#" id="deviceInfoLink" class="button is-small"><i class="fas fa-wrench" style="margin-right: 0.3rem;"></i>기기정보</a>
+                        </div>
+                        <div class="contact-info">
+                            <p>☎2761(업무 문의), ☎2394, 2431(IT 문의)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- 공지사항 섹션 -->
+        <div class="notice-section">
+            <button class="notice-nav prev" id="prevBtn" aria-label="Previous Notice"><i
+                    class="fas fa-chevron-left"></i></button>
+            <div class="notice-container-wrapper">
+                <div class="notice-container" id="noticeContainer">
+                    <div class="notice-card" data-full-title="[공지] 시스템 정기 점검 안내 (7월 5일 02:00 ~ 04:00)"
+                        data-full-content="보다 안정적인 서비스 제공을 위해 시스템 정기 점검을 실시합니다. 점검 시간에는 서비스 이용이 일시적으로 중단될 수 있으니, 업무에 참고해주시기 바랍니다. 고객 여러분의 양해 부탁드립니다.">
+                        <p class="notice-title">[공지]</p>
+                        <p class="notice-content">시스템 정기 점검 안내 (7월 5일 02:00 ~ 04:00) 보다 안정적인 서비스 제공을 위해 시스템 정기 점검을
+                            실시합니다. 점검 시간에는 서비스 이용이 일시적으로 중단될 수 있습니다.</p>
+                    </div>
+                    <div class="notice-card" data-full-title="[업데이트] 태블릿 브랜치 v1.2 업데이트 안내"
+                        data-full-content="새로운 기능이 추가되고 사용자 경험이 개선된 v1.2가 배포되었습니다. 주요 변경 사항으로는 '간편 서명 기능', '고객 정보 즐겨찾기' 등이 있으며, 자세한 내용은 내부 시스템 게시판의 패치노트를 확인해주세요.">
+                        <p class="notice-title">[업데이트]</p>
+                        <p class="notice-content">태블릿 브랜치 v1.2 업데이트 안내. 새로운 기능이 추가되고 사용자 경험이 개선되었습니다. 자세한 내용은 내부 게시판을
+                            확인해주세요.</p>
+                    </div>
+                    <div class="notice-card" data-full-title="[보안] 피싱 사기 주의 안내"
+                        data-full-content="최근 회사를 사칭하여 비밀번호 변경을 유도하는 피싱 메일이 발견되고 있습니다. 출처가 불분명한 이메일의 첨부파일이나 링크를 절대 클릭하지 마시고, 의심스러운 메일 수신 시 즉시 IT 보안팀으로 신고해주시기 바랍니다.">
+                        <p class="notice-title">[보안]</p>
+                        <p class="notice-content">피싱 사기 주의 안내. 최근 회사를 사칭한 피싱 메일이 발견되고 있습니다. 출처가 불분명한 이메일의 첨부파일이나 링크를
+                            클릭하지 마세요.</p>
+                    </div>
+                    <div class="notice-card" data-full-title="[안내] 하계 휴가철 시스템 운영 안내"
+                        data-full-content="하계 휴가철 기간(7/20 ~ 8/15)에도 안정적인 시스템 운영을 위해 IT 지원팀이 24시간 비상 대응 체제를 유지합니다. 시스템 이용 중 문제 발생 시 IT문의(☎2394, 2431)로 즉시 연락주시기 바랍니다.">
+                        <p class="notice-title">[안내]</p>
+                        <p class="notice-content">하계 휴가철 시스템 운영 안내. 휴가철에도 안정적인 시스템 운영을 위해 비상 대응팀이 24시간 대기합니다. 문제 발생 시
+                            IT문의로 연락주세요.</p>
+                    </div>
+                    <div class="notice-card" data-full-title="[중요] 개인정보 처리 방침 개정 안내 (8/1 시행)"
+                        data-full-content="2025년 8월 1일부터 새로운 개인정보 처리 방침이 적용됩니다. 개인정보의 수집 및 이용, 제3자 제공, 처리 위탁 등에 관한 사항이 변경되었으니, 시스템 내 '개인정보 처리 방침' 메뉴에서 변경된 전문을 반드시 확인해주시기 바랍니다.">
+                        <p class="notice-title">[중요]</p>
+                        <p class="notice-content">개인정보 처리 방침 개정 안내. 2025년 8월 1일부터 새로운 개인정보 처리 방침이 적용됩니다. 변경 사항을 반드시
+                            확인해주시기 바랍니다.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="notice-nav next" id="nextBtn" aria-label="Next Notice"><i
+                    class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- 로그인 알림용 모달 -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">알림</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body" id="notificationMessage">
+            </section>
+        </div>
+    </div>
+
+    <!-- 공지사항 상세 보기용 모달 -->
+    <div id="noticeDetailModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title" id="noticeModalTitle"></p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body" id="noticeModalContent">
+            </section>
+        </div>
+    </div>
+
+    <!-- 기기 정보 확인용 모달 -->
+    <div id="deviceInfoModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">태블릿 정보</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="content">
+                    <p><strong>기기 전화번호:</strong> <span id="devicePhoneNumber"></span></p>
+                    <p><strong>SDK 버전:</strong> <span id="sdkVersion"></span></p>
+                    <p><strong>기기상태:</strong> <span id="deviceStatus"></span></p>
+                    <p><strong>지점:</strong> <span id="branchInfo"></span></p>
+                    <p id="loginAsAdmin" style="text-align: right;"><strong>행번/비밀번호로 로그인</strong></p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 로그인 및 알림 관련 로직 ---
+            const userIdInput = document.getElementById('userIdInput');
+            const otpInput = document.getElementById('otpInput');
+            const adminIdInput = document.getElementById('adminIdInput');
+            const adminPwdInput = document.getElementById('adminPwdInput');
+            const loginButton = document.getElementById('loginButton');
+            const otpCheckBtn = document.getElementById('otpCheckBtn');
+            const adminLoginButton = document.getElementById('adminLoginButton');
+            const notificationModal = document.getElementById('notificationModal');
+            const notificationMessage = document.getElementById('notificationMessage');
+            const notificationCloseButtons = notificationModal.querySelectorAll('.delete, .modal-background');
+
+            // *** 로그인 옵션 선택 관련 로직 ***
+            const initialLoginField = document.querySelector('.initial-login-field');
+            const adminLoginField = document.querySelector('.admin-login-field');
+            const bioLoginField = document.querySelector('.bio-login-field');
+            const otpLoginField = document.querySelector('.otp-login-field');
+
+            const adminGoBackBtn = document.getElementById('adminGoBackBtn');
+            const bioGoBackBtn = document.getElementById('bioGoBackBtn');
+            const otpGoBackBtn = document.getElementById('otpGoBackBtn');
+
+            const toggleInitialLoginField = () => {
+                initialLoginField.classList.toggle('hide-field');
+                setTimeout(() => {
+                    initialLoginField.classList.toggle('delete-field');
+                }, 500)
+            };
+
+            const toggleBioLoginField = () => {
+                bioLoginField.classList.toggle('show-field');
+                setTimeout(() => {
+                    bioLoginField.classList.toggle('create-field');
+                }, 500);
+            };
+
+            const toggleOtpLoginField = () => {
+                otpLoginField.classList.toggle('show-field');
+                setTimeout(() => {
+                    otpLoginField.classList.toggle('create-field');
+                }, 500);
+            };
+
+
+            function showNotification(message) {
+                notificationMessage.innerHTML = message;
+                notificationModal.classList.add('is-active');
+            }
+
+            function closeNotification() {
+                notificationModal.classList.remove('is-active');
+            }
+
+            notificationCloseButtons.forEach(btn => btn.addEventListener('click', closeNotification));
+
+            adminGoBackBtn.addEventListener('click', () => {
+                toggleInitialLoginField();
+                toggleAdminLoginField();
+                
+                loginAsAdmin.classList.remove('hide-field');
+                loginAsAdmin.classList.remove('delete-field');
+            });
+            bioGoBackBtn.addEventListener('click', () => {
+                toggleInitialLoginField();
+                toggleBioLoginField();
+            })
+            otpGoBackBtn.addEventListener('click', () => {
+                toggleInitialLoginField();
+                toggleOtpLoginField();
+            })
+
+            otpCheckBtn.addEventListener('click', () => {
+                alert(otpInput.value);
+            });
+
+            adminLoginButton.addEventListener('click', () => {
+                alert('id: ' + adminIdInput.value + ' pwd: ' + adminPwdInput.value);
+            });
+
+            loginButton.addEventListener('click', () => {
+                const userId = userIdInput.value;
+                const authMethod = document.querySelector('input[name="auth_method"]:checked').value;
+                const location = document.querySelector('input[name="location"]:checked').value;
+
+                if (userId) {
+                    // showNotification(`<b>로그인 시도:</b><br>행번: ${userId}<br>인증 방식: ${authMethod}<br>접속 환경: ${location}`);
+
+                    // 행번 입력화면 숨기기
+                    toggleInitialLoginField();
+                    if (authMethod == 'bio') {
+                        toggleBioLoginField();
+                    }
+                    else if (authMethod == 'otp') {
+                        toggleOtpLoginField();
+                    }
+                } else {
+                    showNotification('행번를 입력해주세요.');
+                }
+            });
+
+            // --- 전체 화면 전환 로직 ---
+            // 전체화면 상태를 토글하는 함수
+            function toggleFullScreen() {
+                // 현재 전체화면 상태가 아니라면
+                if (!document.fullscreenElement) {
+                    // 문서의 최상위 요소(<html>)를 전체화면으로 요청
+                    document.documentElement.requestFullscreen()
+                        .then(() => console.log("전체화면으로 전환되었습니다."))
+                        .catch(err => {
+                            console.error(`전체화면 전환에 실패했습니다: ${err.message} (${err.name})`);
+                        });
+                } else { // 현재 전체화면 상태라면
+                    // 전체화면에서 빠져나옴
+                    document.exitFullscreen()
+                        .then(() => console.log("전체화면에서 해제되었습니다."))
+                        .catch(err => {
+                            console.error(`전체화면 해제에 실패했습니다: ${err.message} (${err.name})`);
+                        });
+                }
+            }
+
+            // 키보드 이벤트 리스너 추가
+            document.addEventListener('keydown', (event) => {
+                // 사용자가 누른 키가 'f' 또는 'F'일 경우
+                if (event.key.toLowerCase() === 'f') {
+                    // 이벤트의 기본 동작(예: 'f' 입력)을 막고 싶다면 아래 주석을 해제하세요.
+                    // event.preventDefault();
+                    toggleFullScreen();
+                }
+            });
+
+            // --- 공지사항 관련 로직 ---
+            const noticeContainer = document.getElementById('noticeContainer');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const noticeDetailModal = document.getElementById('noticeDetailModal');
+            const noticeModalTitle = document.getElementById('noticeModalTitle');
+            const noticeModalContent = document.getElementById('noticeModalContent');
+            const noticeModalCloseButtons = noticeDetailModal.querySelectorAll('.delete, .modal-background');
+
+            if (noticeContainer && prevBtn && nextBtn) {
+                const noticeCards = noticeContainer.querySelectorAll('.notice-card');
+
+                const showNoticeModal = (title, content) => {
+                    noticeModalTitle.textContent = title;
+                    noticeModalContent.textContent = content;
+                    noticeDetailModal.classList.add('is-active');
+                };
+                const closeNoticeModal = () => noticeDetailModal.classList.remove('is-active');
+                noticeModalCloseButtons.forEach(btn => btn.addEventListener('click', closeNoticeModal));
+
+                if (noticeCards.length > 0) {
+                    const scroll = (direction) => {
+                        const scrollAmount = noticeContainer.clientWidth;
+                        let newScrollLeft = noticeContainer.scrollLeft + (direction * scrollAmount);
+
+                        if (newScrollLeft >= noticeContainer.scrollWidth - scrollAmount / 2) {
+                            noticeContainer.scrollTo({ left: 0, behavior: 'smooth' });
+                        } else if (newScrollLeft < 0) {
+                            noticeContainer.scrollTo({ left: noticeContainer.scrollWidth, behavior: 'smooth' });
+                        } else {
+                            noticeContainer.scrollLeft = newScrollLeft;
+                        }
+                    };
+
+                    nextBtn.addEventListener('click', () => scroll(1));
+                    prevBtn.addEventListener('click', () => scroll(-1));
+
+                    let isDown = false;
+                    let isDragging = false;
+                    let startX;
+                    let scrollLeft;
+                    let isTouchDevice = false; // 터치 디바이스 감지용
+
+                    const startDragging = (e) => {
+                        // 터치 이벤트인지 확인
+                        if (e.type === 'touchstart') {
+                            isTouchDevice = true;
+                        }
+
+                        isDown = true;
+                        isDragging = false;
+                        noticeContainer.classList.add('active');
+                        startX = (e.pageX || e.touches[0].pageX) - noticeContainer.offsetLeft;
+                        scrollLeft = noticeContainer.scrollLeft;
+                    };
+
+                    const stopDragging = (e) => {
+                        // 터치 디바이스에서는 mouseleave 이벤트 무시
+                        if (isTouchDevice && e.type === 'mouseleave') {
+                            return;
+                        }
+
+                        isDown = false;
+                        noticeContainer.classList.remove('active');
+
+                        // 드래그하지 않았고, mouseleave가 아닐 때만 모달 열기
+                        if (!isDragging && e.type !== 'mouseleave') {
+                            const card = e.target.closest('.notice-card');
+                            if (card) {
+                                const fullTitle = card.dataset.fullTitle;
+                                const fullContent = card.dataset.fullContent;
+
+                                // 터치 디바이스에서는 약간의 지연을 추가하여 ghost click 방지
+                                if (isTouchDevice && e.type === 'touchend') {
+                                    setTimeout(() => {
+                                        showNoticeModal(fullTitle, fullContent);
+                                    }, 50);
+                                } else if (!isTouchDevice) {
+                                    showNoticeModal(fullTitle, fullContent);
+                                }
+                            }
+                        }
+                    };
+
+                    const whileDragging = (e) => {
+                        if (!isDown) return;
+                        e.preventDefault();
+                        const x = (e.pageX || e.touches[0].pageX) - noticeContainer.offsetLeft;
+                        const walk = x - startX;
+                        if (Math.abs(walk) > 5) {
+                            isDragging = true;
+                        }
+                        noticeContainer.scrollLeft = scrollLeft - walk;
+                    };
+
+                    // 이벤트 리스너 등록
+                    noticeContainer.addEventListener('touchstart', startDragging, { passive: false });
+                    noticeContainer.addEventListener('touchend', stopDragging, { passive: false });
+                    noticeContainer.addEventListener('touchmove', whileDragging, { passive: false });
+
+                    // 데스크탑용 마우스 이벤트 (터치 디바이스가 아닐 때만)
+                    noticeContainer.addEventListener('mousedown', (e) => {
+                        if (!isTouchDevice) {
+                            startDragging(e);
+                        }
+                    });
+
+                    noticeContainer.addEventListener('mouseup', (e) => {
+                        if (!isTouchDevice) {
+                            stopDragging(e);
+                        }
+                    });
+
+                    noticeContainer.addEventListener('mouseleave', (e) => {
+                        if (!isTouchDevice) {
+                            stopDragging(e);
+                        }
+                    });
+
+                    noticeContainer.addEventListener('mousemove', (e) => {
+                        if (!isTouchDevice) {
+                            whileDragging(e);
+                        }
+                    });
+
+                    // 터치 디바이스 감지를 위한 추가 체크
+                    window.addEventListener('touchstart', () => {
+                        isTouchDevice = true;
+                    }, { once: true, passive: true });
+                }
+            }
+            // --- 기기 정보 모달 로직 ---
+            const deviceInfoLink = document.getElementById('deviceInfoLink');
+            const deviceInfoModal = document.getElementById('deviceInfoModal');
+            const deviceInfoCloseButtons = deviceInfoModal.querySelectorAll('.delete, .modal-background');
+
+            // *** 추가 로직 ***
+            const loginAsAdmin = document.getElementById('loginAsAdmin');
+
+            const toggleAdminLoginField = () => {
+                adminLoginField.classList.toggle('show-field');
+                setTimeout(() => {
+                    adminLoginField.classList.toggle('create-field');
+                }, 500);
+                loginAsAdmin.classList.add('hide-field');
+                loginAsAdmin.classList.add('delete-field');
+            };
+
+            loginAsAdmin.addEventListener('click', () => {
+                deviceInfoModal.classList.remove('is-active');
+
+                initialLoginField.classList.add('hide-field');
+                setTimeout(() => {
+                    initialLoginField.classList.add('delete-field');
+                }, 500);
+
+                bioLoginField.classList.remove('show-field');
+                setTimeout(() => {
+                    bioLoginField.classList.remove('create-field');
+                }, 500);
+
+                otpLoginField.classList.remove('show-field');
+                setTimeout(() => {
+                    otpLoginField.classList.remove('create-field');
+                }, 500);
+
+                toggleAdminLoginField();
+            });
+
+            const showDeviceInfoModal = () => {
+                const currentUserId = userIdInput.value || '미로그인';
+                document.getElementById('devicePhoneNumber').textContent = '010-1234-5678';
+                document.getElementById('sdkVersion').textContent = 'Android 13 (API 33)';
+                document.getElementById('deviceStatus').textContent = `반출(${currentUserId})`;
+                document.getElementById('branchInfo').textContent = 'DGB대구은행 본점';
+                deviceInfoModal.classList.add('is-active');
+            };
+
+            const closeDeviceInfoModal = () => {
+                deviceInfoModal.classList.remove('is-active');
+            };
+
+            deviceInfoLink.addEventListener('click', showDeviceInfoModal);
+            deviceInfoCloseButtons.forEach(btn => btn.addEventListener('click', closeDeviceInfoModal));
+        });
+    </script>
+</body>
+
+</html>

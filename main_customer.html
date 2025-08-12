@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객용 메인 화면</title>
+
+    <!-- Bulma CSS CDN 링크 -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"> -->
+    <link rel="stylesheet" href="bulma.min.css">
+
+    <!-- Font Awesome 아이콘을 위한 CDN -->
+    <!-- <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script> -->
+    <script src="all.js"></script>
+
+    <!-- Google Fonts (Noto Sans KR) 적용 -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet"> -->
+
+    <style>
+        /* @font-face 규칙을 사용하여 로컬 폰트 선언 */
+        @font-face {
+            font-family: 'Noto Sans KR';
+            /* CSS에서 사용할 폰트 이름 */
+            src: url('fonts/NotoSans-Regular.woff2') format('woff2'),
+                /* 폰트 파일 경로 */
+                url('fonts/NotoSans-Regular.woff') format('woff');
+            font-weight: 400;
+            /* 폰트 두께 */
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Noto Sans KR';
+            src: url('fonts/NotoSans-Bold.woff2') format('woff2'),
+                url('fonts/NotoSans-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* 기본 스타일 및 폰트 적용 */
+        html {
+            overflow: hidden;
+            /* Prevent html/body scroll */
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f4f7fa;
+        }
+
+        /* 전체 컨테이너: 화면 전체 높이를 차지하며, flex 컨테이너 역할 */
+        .main-container {
+            height: 100vh;
+            /* 뷰포트 높이와 정확히 일치 */
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        /* --- 메인 콘텐츠 영역 레이아웃 수정 --- */
+        .main-content {
+            flex-grow: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 2. Navigation Bar */
+        /* --- 네비게이션 바 --- */
+        .u_main_nav {
+            background-color: #2bddb7;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .navbar-content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .u_main_nav_logo img {
+            max-height: 40px;
+        }
+
+        .nav-right-content {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            /* 간격 축소 */
+        }
+
+        /* 각 기능 섹션 스타일 */
+        .nav-section {
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            /* 패딩 축소 */
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            /* 내부 간격 축소 */
+            height: 42px;
+            /* 높이 통일 */
+        }
+
+        /* 아이콘 색상 통일 */
+        .nav-section .icon,
+        .u_main_menu_btn .icon {
+            color: #E0F2F1 !important;
+            align-items: center;
+        }
+
+        /* [첫번째 영역] 권유자 정보 */
+        .solicitor-badge {
+            background-color: #00bfa9;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.7rem;
+            /* 글자 크기 축소 */
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* [두번째 영역] 고객 정보 및 버튼 */
+        .customer-name-btn {
+            font-size: 0.9rem;
+            /* 글자 크기 축소 */
+            font-weight: 700;
+            color: rgb(255, 255, 255) !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            height: auto !important;
+            cursor: pointer;
+            display: flex;
+            margin-left: -10px;
+        }
+
+        .customer-name-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* [세번째 영역] 세션 시간 */
+        .session-timer {
+            font-weight: 500;
+            font-size: 0.8rem;
+            /* 글자 크기 축소 */
+            display: flex;
+            align-items: center;
+        }
+
+        /* 메뉴 버튼 (햄버거 아이콘) */
+        .u_main_menu_btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+
+        .u_main_menu_btn:hover {
+            color: #363636;
+        }
+
+        /* --- 버튼 그룹 스타일 --- */
+        .button-group {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            padding: 0 0rem;
+            height: 32px;
+        }
+
+        .button-group>* {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 0.4rem;
+            /* 패딩 축소 */
+        }
+
+        .button-group>*:not(:first-child) {
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .u_nav_btn_grouped {
+            border: none !important;
+            background: transparent !important;
+            color: white !important;
+            font-weight: 450;
+            font-size: 0.75rem;
+            /* 글자 크기 축소 */
+            border-radius: 0;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .u_nav_btn_grouped:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .u_nav_btn_grouped.is-logout {
+            color: #ffdddd !important;
+        }
+
+        .u_nav_btn_grouped.is-logout:hover {
+            color: white !important;
+            background-color: rgba(217, 83, 79, 0.5) !important;
+        }
+
+        .u_nav_btn_grouped .icon {
+            color: white !important;
+            margin-right: 0.4em !important;
+        }
+
+        .u_nav_btn_grouped.is-logout .icon {
+            color: #ffdddd !important;
+        }
+
+        .u_nav_btn_grouped.is-logout:hover .icon {
+            color: white !important;
+        }
+
+        /* 모든 입력창(input)에 대한 세련된 스타일 */
+        .input {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            /* 둥근 모서리 적용 */
+            color: #363636;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .input:focus,
+        .input:active {
+            outline: none;
+            border-color: #00d1b2;
+            /* 테마 색상과 일치 */
+            box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+        }
+
+        .input::placeholder {
+            color: #a5a5a5;
+            /* 더 부드러운 플레이스홀더 색상 */
+        }
+
+        /* 상단 검색 바 스타일 (아이콘 공간 확보) */
+        .search-bar {
+            margin-top: -20px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .search-bar .input {
+            border-radius: 20px;
+            padding-left: 40px;
+            font-size: 1.1rem;
+        }
+
+        .search-bar .icon.is-left {
+            left: 10px;
+            color: #0800ff5c;
+        }
+
+        /* 추천 검색어 드롭다운 스타일 */
+        .search-results {
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 5px;
+        }
+
+        .search-results-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            color: #4a4a4a;
+            font-size: 0.9rem;
+        }
+
+        .search-results-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 카드 섹션: 남은 공간을 차지하며, 내부 행들을 세로로 배치 */
+        .card-section {
+            margin-top: 10px;
+            flex-grow: 1;
+            display: flex;
+            min-height: 0;
+            gap: 5px;
+            /* 카드 행 사이의 간격 */
+        }
+
+        .card-section .column {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            /* 내부 스크롤을 위해 중요 */
+        }
+
+        .card-header {
+            align-items: center;
+        }
+
+        .card-header-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #363636;
+        }
+
+        .card-content {
+            font-size: 0.9rem;
+            color: #4a4a4a;
+            flex-grow: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content.is-scrollable-content {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 10px;
+
+            /* 스크롤바 숨기기 */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .card-content.is-scrollable-content::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, and Opera */
+        }
+
+        /* 스크롤이 가능할 때만 적용될 하단 흐림 효과 */
+        .card-content.is-scrollable-content.has-fade {
+            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+        }
+
+        .card-footer {
+            border-top: 1px solid #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        .card-footer-item {
+            color: #3273dc;
+            font-weight: 600;
+        }
+
+        /* --- 고객 정보 카드 스타일 (레이아웃 수정) --- */
+        .cust-profile-info {
+            display: flex;
+            flex-direction: row;
+            /* 가로 배치로 수정 */
+            align-items: center;
+            /* 세로 중앙 정렬 */
+            gap: 1.5rem;
+            /* 이미지와 정보 사이 간격 */
+            margin-bottom: 1rem;
+        }
+
+        .profile-image-section {
+            /* 이미지와 배지를 묶는 컨테이너 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .cust-profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00d1b2;
+            padding: 3px;
+            background-color: white;
+        }
+
+        .customer-details {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.85rem;
+            width: 100%;
+            margin-top: 0;
+            /* 상단 마진 제거 */
+        }
+
+        .customer-details p {
+            margin-bottom: 3px;
+        }
+
+        .customer-details strong {
+            color: #363636;
+            min-width: 65px;
+            /* 라벨 너비 고정 */
+            display: inline-block;
+        }
+
+        /* --- 고객 프로필 유형 배지 --- */
+        .profile-customer-type-badge {
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 16px;
+            color: white;
+            margin-top: 10px;
+            /* 이미지와 배지 사이 간격 */
+        }
+
+        .profile-customer-type-badge.is-private-biz {
+            background-color: #ffac33;
+        }
+
+        /* 개인사업자 */
+        .profile-customer-type-badge.is-corporate-biz {
+            background-color: #48c774;
+        }
+
+        /* 법인사업자 */
+        .profile-customer-type-badge.is-individual {
+            background-color: #3273dc;
+        }
+
+        /* 개인 */
+
+        /* 빠른 링크 카드 버튼 스타일 */
+        .quick-links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .quick-link-button {
+            flex-basis: calc(50% - 5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 5px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #f0f8ff;
+            border: 1px solid #e0e8f0;
+            color: #3273dc;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            position: relative;
+            overflow: visible;
+        }
+
+        .quick-link-button:hover {
+            background-color: #e6f2ff;
+            transform: translateY(-2px);
+        }
+
+        .quick-link-button span {
+            font-size: 0.85rem;
+            line-height: 1.2;
+        }
+
+        /* 카테고리 배지 스타일 */
+        .category-badge {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: #4a4a4a;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            z-index: 1;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-badge.is-su-shin {
+            background-color: #4CAF50;
+        }
+
+        .category-badge.is-yeo-shin {
+            background-color: #FFC107;
+        }
+
+        .category-badge.is-wae-hwan {
+            background-color: #2196F3;
+        }
+
+        .category-badge.is-fund {
+            background-color: #9C27B0;
+        }
+
+        .category-badge.is-etc {
+            background-color: #607D8B;
+        }
+
+        /* --- 왼쪽 컬럼 카드 높이 수정 --- */
+        #profileCardCustomer {
+            flex-shrink: 0;
+            /* 고객 정보 카드는 높이가 고정되도록 */
+        }
+
+        #profileCardCustomer .card-content {
+            padding: 1rem;
+            /* 내부 패딩을 줄여 높이 감소 */
+        }
+
+        #quick-link-card {
+            flex-grow: 1;
+            /* 빠른 링크 카드가 남은 공간을 채우도록 */
+            min-height: 0;
+        }
+
+
+        /* --- 오른쪽 컬럼 및 고객 종합 정보 카드 레이아웃 --- */
+        #right-column-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .customer-info-component {
+            flex-grow: 1;
+            /* 남은 공간을 모두 차지하도록 설정 */
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .customer-info-component .card {
+            flex-grow: 1;
+            /* 카드 자체가 부모의 높이를 꽉 채우도록 설정 */
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .customer-info-component .card-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            padding: 0;
+        }
+
+        /* 사용자 정의 탭 스타일 */
+        .customer-info-component .tabs.is-fullwidth li a {
+            transition: all 0.3s ease;
+            border-bottom-width: 2px;
+            border-bottom-color: #dbdbdb;
+        }
+
+        .customer-info-component .tabs.is-fullwidth li.is-active a {
+            border-bottom-color: #485fc7;
+            /* Bulma 정보 색상 */
+            color: #485fc7;
+            font-weight: 700;
+        }
+
+        /* --- 탭 콘텐츠 스타일 수정 --- */
+        .customer-info-component .tab-content {
+            display: none;
+            /* 기본적으로 모든 탭 콘텐츠 숨김 */
+            margin-top: -20px;
+            padding: 1rem;
+            flex-grow: 1;
+            overflow-y: auto;
+            /* 내용이 많을 경우 스크롤되도록 수정 */
+            min-height: 0;
+            -ms-overflow-style: none;
+            /* IE and Edge 스크롤바 숨기기 */
+            scrollbar-width: none;
+            /* Firefox 스크롤바 숨기기 */
+        }
+
+        .customer-info-component .tab-content::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, and Opera 스크롤바 숨기기 */
+        }
+
+        .customer-info-component .tab-content.is-active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 상품 및 서비스 그리드 (수정) */
+        .customer-info-component .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.4rem;
+            text-align: center;
+        }
+
+        .customer-info-component .service-item {
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            padding: 0.4rem;
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            min-height: 40px;
+        }
+
+        /* 구독된 항목 스타일 */
+        .customer-info-component .service-item.is-subscribed {
+            background-color: #eff5fb;
+            border-color: #3e8ed0;
+            color: #3e8ed0;
+            font-weight: 700;
+        }
+
+        /* --- 상품 클릭 기능 관련 스타일 (수정) --- */
+        .customer-info-component .product-item {
+            cursor: pointer;
+        }
+
+        .customer-info-component .product-item.is-selected {
+            border-color: #2bddb7;
+            background-color: #f0fdf9;
+            color: #00695C;
+            border-width: 2px;
+            transform: scale(1.05);
+        }
+
+        .customer-info-component .service-item .icon-check {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.9em;
+            color: #23d160;
+            visibility: hidden;
+        }
+
+        .customer-info-component .service-item.is-subscribed .icon-check {
+            visibility: visible;
+        }
+
+        /* 실적정보 카드경험 */
+        /* 상품 및 서비스 그리드 (수정) */
+        .customer-info-component #accounts .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.4rem;
+            text-align: center;
+        }
+
+        .customer-info-component #accounts .service-item {
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            padding: 0.4rem;
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            min-height: 20px !important;
+        }
+
+        /* 구독된 항목 스타일 */
+        .customer-info-component #accounts .service-item.is-subscribed {
+            background-color: #eff5fb;
+            border-color: #3e8ed0;
+            color: #3e8ed0;
+            font-weight: 700;
+        }
+
+        .customer-info-component #accounts .service-item .icon-check {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.9em;
+            color: #23d160;
+            visibility: hidden;
+        }
+
+        .customer-info-component #accounts .service-item.is-subscribed .icon-check {
+            visibility: visible;
+        }
+        /* 실적정보 카드경험 끝 */
+
+        #product-details-section {
+            padding-top: 1rem;
+            margin-top: auto;
+            /* 하단에 고정되도록 */
+            animation: fadeIn 0.5s ease;
+            flex-shrink: 0;
+            /* 내용이 많아져도 줄어들지 않도록 */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #product-details-placeholder {
+            padding-bottom: 2rem;
+            opacity: 0.5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+            /* 최소 높이 설정 */
+        }
+
+        #product-details-content {
+            background-color: #fafafa;
+            border-radius: 6px;
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+
+        #product-details-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        #product-details-content .table {
+            font-size: 0.8rem;
+        }
+
+
+        /* 계좌 정보 테이블 */
+        .customer-info-component .account-table {
+            width: 100%;
+        }
+
+        .customer-info-component .account-table th,
+        .customer-info-component .account-table td {
+            padding: 0.6em 0.75em;
+            /* 수직 패딩 축소 */
+        }
+
+        .customer-info-component .account-table th {
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- 상단 네비게이션 바 -->
+        <nav class="navbar u_main_nav" role="navigation" aria-label="main navigation">
+            <div class="navbar-content-wrapper">
+                <!-- 로고 (좌측 유지) -->
+                <a class="navbar-item u_main_nav_logo" href="#">
+                    <img src="bank_logo_white.png" alt="Bank Logo">
+                </a>
+
+                <!-- 우측 정렬 콘텐츠 -->
+                <div class="nav-right-content">
+                    <!-- 첫번째 영역: 권유자 정보 -->
+                    <div class="nav-section">
+                        <span class="solicitor-badge">
+                            <span class="icon is-small"><i class="fas fa-user-check"></i></span>
+                            <span>권유자: 홍길동</span>
+                        </span>
+                        <button class="button is-small u_nav_btn">
+                            <span>변경</span>
+                        </button>
+                    </div>
+
+                    <!-- 두번째 영역: 고객 정보 및 버튼 그룹 -->
+                    <div class="nav-section">
+                        <span class="icon"><i class="far fa-user-circle"></i></span>
+                        <button class="customer-name-btn" onclick="alert('고객 정보 클릭!')"
+                            style="align-items: center; margin-bottom: 5px;">김고객님</button>
+
+                        <!-- 버튼 그룹 -->
+                        <div class="button-group">
+                            <span class="u_nav_btn_grouped">
+                                <span class="icon is-small"><i class="fas fa-key"></i></span>
+                                <span>일련번호 변경</span>
+                            </span>
+                            <span class="u_nav_btn_grouped is-logout">
+                                <span class="icon is-small"><i class="fas fa-sign-out-alt"></i></span>
+                                <span>상담종료</span>
+                            </span>
+                            <span class="u_nav_btn_grouped">
+                                <span class="icon is-small"><i class="fas fa-id-card"></i></span>
+                                <span>명함전송</span>
+                            </span>
+                            <span class="u_nav_btn_grouped">
+                                <span class="icon is-small"><i class="fas fa-street-view"></i></span>
+                                <span>방문판매</span>
+                            </span>
+                            <!-- <span class="u_nav_btn_grouped">
+                                <span class="icon is-small"><i class="fas fa-building"></i></span>
+                                <span>점내</span>
+                            </span> -->
+                            <span class="u_nav_btn_grouped">
+                                <span class="icon is-small"><i class="fas fa-car"></i></span>
+                                <span>점외</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 세번째 영역: 세션 남은 시간 -->
+                    <div class="nav-section">
+                        <div class="session-timer">
+                            <span class="icon" style="align-items: center;"><i class="far fa-clock"></i></span>
+                            <span style="align-items: center;">09:59</span>
+                        </div>
+                    </div>
+
+                    <!-- 메뉴 버튼 (맨 우측 유지) -->
+                    <button class="button is-text u_main_menu_btn">
+                        <span class="icon"><i class="fas fa-bars"></i></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <section class="section main-content">
+            <!-- 검색 바 -->
+            <div class="field search-bar">
+                <div class="control has-icons-left">
+                    <input class="input" type="search" placeholder="어떤 업무를 하시겠습니까?(업무 명 or 거래코드 입력)" id="searchInput">
+                    <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <!-- 추천 검색어 표시 영역 -->
+                <div class="search-results" id="searchResults" style="display: none;">
+                    <!-- 추천 검색어 항목들이 여기에 동적으로 추가됩니다. -->
+                </div>
+            </div>
+
+            <!-- 카드 섹션 -->
+            <div class="columns card-section">
+                <!-- 왼쪽 컬럼 -->
+                <div id="leftPanel" class="column is-4">
+                    <div class="card" id="profileCardCustomer">
+                        <header class="card-header">
+                            <p class="card-header-title">고객 정보</p>
+                            <button class="button is-small is-link is-outlined" style="margin: auto 0.75rem;">
+                                <span class="icon is-small"><i class="fas fa-edit"></i></span>
+                                <span>정보 수정</span>
+                            </button>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <!-- --- 고객 정보 레이아웃 수정 --- -->
+                                <div class="cust-profile-info">
+                                    <div class="profile-image-section">
+                                        <img id="profileImage"
+                                            src="profile_customer.png"
+                                            alt="고객 프로필 사진" class="cust-profile-image">
+                                        <div class="profile-customer-type-badge is-private-biz">개인사업자</div>
+                                    </div>
+                                    <div class="customer-details">
+                                        <p><strong>고객명:</strong> 박서준</p>
+                                        <p><strong>고객번호:</strong> 1111111</p>
+                                        <p><strong>전화번호:</strong> 010-9876-5432</p>
+                                        <p><strong>이메일:</strong> sj.park@email.com</p>
+                                        <p><strong>대리인:</strong> <span>박지민 <span
+                                                    class="tag is-info is-light">2523523525</span></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" id="quick-link-card">
+                        <header class="card-header">
+                            <p class="card-header-title">빠른 링크</p>
+                            <a href="#" class="button is-small is-link is-outlined" style="margin: auto 0.75rem;">
+                                <span class="icon is-small"><i class="fas fa-th-large"></i></span>
+                                <span>전체메뉴</span>
+                            </a>
+                        </header>
+                        <div id="quick-links-content" class="card-content is-scrollable-content">
+                            <div class="content quick-links-grid">
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-su-shin">수신</span><span>수신 전계좌 조회</span></a>
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-yeo-shin">여신</span><span>여신 차주조회</span></a>
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-wae-hwan">외환</span><span>당발송금</span></a>
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-fund">펀드</span><span>펀드 계좌 개설</span></a>
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-etc">기타</span><span>내 정보 수정</span></a>
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-etc">기타</span><span>일정 관리</span></a>
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-etc">기타</span><span>신규 고객 등록</span></a>
+                                <a href="#" class="quick-link-button"><span
+                                        class="category-badge is-etc">기타</span><span>서류함</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 오른쪽 컬럼 -->
+                <div class="column is-8" id="right-column-container">
+                    <div class="customer-info-component" id="customer-acc-card">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">고객 종합 정보</p>
+                            </header>
+                            <div class="card-content">
+                                <!-- Tab Navigation -->
+                                <div class="tabs is-fullwidth is-marginless" id="info-tabs">
+                                    <ul>
+                                        <li class="is-active" data-tab="products"><a>상품&서비스 보유정보</a></li>
+                                        <li data-tab="accounts"><a>고객 실적 정보</a></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Tab Content Panels -->
+                                <div id="products" class="tab-content is-active">
+                                    <!-- 보유 상품 및 서비스 목록 -->
+                                    <div>
+                                        <h6 class="title is-6 has-text-left mb-2">가입 서비스</h6>
+                                        <div class="services-grid mb-4">
+                                            <div class="service-item is-subscribed">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                직장인우대계좌
+                                            </div>
+                                            <div class="service-item">사업자우대계좌</div>
+                                            <div class="service-item is-subscribed">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                SMS입출금문자
+                                            </div>
+                                            <div class="service-item">ISA</div>
+                                            <div class="service-item is-subscribed">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                바이오
+                                            </div>
+                                            <div class="service-item is-subscribed">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                급여이체
+                                            </div>
+                                            <div class="service-item">연금이체</div>
+                                            <div class="service-item">기업CMS</div>
+                                            <div class="service-item">BC가맹점(당행)</div>
+                                            <div class="service-item">BC가맹점(타행)</div>
+                                            <div class="service-item is-subscribed">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                인터넷뱅킹
+                                            </div>
+                                            <div class="service-item is-subscribed">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                스마트뱅킹
+                                            </div>
+                                        </div>
+
+                                        <h6 class="title is-6 has-text-left mb-2">보유 상품</h6>
+                                        <div class="services-grid" id="owned-products-grid">
+                                            <div class="service-item product-item is-subscribed" data-product="예금">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                예금
+                                            </div>
+                                            <div class="service-item product-item is-subscribed" data-product="적금">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                적금
+                                            </div>
+                                            <div class="service-item product-item" data-product="카드">카드</div>
+                                            <div class="service-item product-item" data-product="방카">방카</div>
+                                            <div class="service-item product-item is-subscribed" data-product="펀드">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                펀드
+                                            </div>
+                                            <div class="service-item product-item" data-product="신탁">신탁</div>
+                                            <div class="service-item product-item" data-product="여신">여신</div>
+                                            <div class="service-item product-item" data-product="외환">외환</div>
+                                            <div class="service-item product-item is-subscribed" data-product="주택청약">
+                                                <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                                주택청약
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 상품 상세 정보 표시 영역 -->
+                                    <div id="product-details-section" class="mt-auto pt-4">
+                                        <!-- 초기 브랜드 로고 -->
+                                        <div id="product-details-placeholder" class="has-text-centered">
+                                            <img src="app_logo_white.png" alt="U-Bank Brand Logo"
+                                                style="height: 100px; opacity: 0.5;">
+                                        </div>
+                                        <!-- 상세 정보 컨테이너 (초기에는 숨김) -->
+                                        <div id="product-details-container" style="display: none;">
+                                            <div
+                                                class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+                                                <h6 id="product-details-title" class="title is-6 mb-0"></h6>
+                                                <button class="button is-small is-link is-light">
+                                                    <span class="icon is-small"><i
+                                                            class="fas fa-search-plus"></i></span>
+                                                    <span>전계좌조회</span>
+                                                </button>
+                                            </div>
+                                            <div id="product-details-content">
+                                                <!-- 상세 정보 테이블이 여기에 동적으로 채워집니다. -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="accounts" class="tab-content">
+                                    <div class="columns">
+                                        <div class="column">
+                                            <h6 class="title is-6">실적정보 <h7 class="title is-7">(단위: 원)</h7></h6>
+                                            <table class="table is-fullwidth is-hoverable is-striped is-narrow">
+                                                <thead>
+                                                    <tr  style="text-align: center; align-items: center; font-size: 0.75rem;">
+                                                        <th  style="text-align: center; align-items: center;">개정점</th>
+                                                        <th  style="text-align: center; align-items: center;">수신<br/>총잔액</th>
+                                                        <th  style="text-align: center; align-items: center;">외화<br/>수신잔액</th>
+                                                        <th  style="text-align: center; align-items: center;">여신<br/>총잔액</th>
+                                                        <th  style="text-align: center; align-items: center;">카드<br/>승인금액</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem;">정평동</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem;">경산영업부</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem;">형곡동</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">10,000,000</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">합계</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">10,000,000</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">10,000,000</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="column">
+                                            <h6 class="title is-6">6개월 거래실적 <h7 class="title is-7">(단위: 백만원)</h7></h6>
+                                            <table class="table is-fullwidth is-hoverable is-striped is-narrow">
+                                                <thead>
+                                                    <tr  style="text-align: center; align-items: center; font-size: 0.75rem;">
+                                                        <th  style="text-align: center; align-items: center;">기준년월</th>
+                                                        <th  style="text-align: center; align-items: center;">입금<br/>금액</th>
+                                                        <th  style="text-align: center; align-items: center;">지급<br/>금액</th>
+                                                        <th  style="text-align: center; align-items: center;">창구</th>
+                                                        <th  style="text-align: center; align-items: center;">인터넷<br/>뱅킹</th>
+                                                        <th  style="text-align: center; align-items: center;">스마트<br/>뱅킹</th>
+                                                        <th  style="text-align: center; align-items: center;">폰뱅킹</th>
+                                                        <th  style="text-align: center; align-items: center;">ATM</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem;">25.01</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">123</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">111</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">1</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">158</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">35</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">84</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">3</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem;">25.02</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">123</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">111</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">1</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">158</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">35</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">84</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">3</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem;">25.03</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">123</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">111</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">1</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">158</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">35</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">84</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">3</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem;">25.04</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">123</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">111</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">1</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">158</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">35</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">84</td>
+                                                        <td style="text-align: right; font-size: 0.7rem;">3</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">합계</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">123</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">456</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">789</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">123</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">456</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">789</td>
+                                                        <td style="text-align: right; font-size: 0.7rem; font-weight: 700;">123</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <h6 class="title is-6 mt-4" style="margin-top: 0rem !important; margin-bottom: 0.5rem !important;">카드 경험 표시</h6>
+                                    <div class="services-grid">
+                                        <div class="service-item is-subscribed">
+                                            <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                            한식
+                                        </div>
+                                        <div class="service-item">일식</div>
+                                        <div class="service-item">중식</div>
+                                        <div class="service-item">갈비전문점</div>
+                                        <div class="service-item">백화점</div>
+                                        <div class="service-item is-subscribed">
+                                            <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                            대형마트
+                                        </div>
+                                        <div class="service-item">온라인쇼핑</div>
+                                        <div class="service-item">홈쇼핑</div>
+                                        <div class="service-item">골프</div>
+                                        <div class="service-item is-subscribed">
+                                            <span class="icon-check"><i class="fas fa-check-circle"></i></span>
+                                            헬스케어
+                                        </div>
+                                        <div class="service-item">영화/공연</div>
+                                        <div class="service-item">상품권(스타벅스)</div>
+                                        <div class="service-item">커피점</div>
+                                        <div class="service-item">건강식품</div>
+                                        <div class="service-item">항공사</div>
+                                        <div class="service-item">면세점</div>
+                                        <div class="service-item">애완동물</div>
+                                        <div class="service-item">유아원/유치원</div>
+                                        <div class="service-item">초중고</div>
+                                        <div class="service-item">주유</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 전체화면 상태를 토글하는 함수
+        function toggleFullScreen() {
+            // 현재 전체화면 상태가 아니라면
+            if (!document.fullscreenElement) {
+                // 문서의 최상위 요소(<html>)를 전체화면으로 요청
+                document.documentElement.requestFullscreen()
+                    .then(() => console.log("전체화면으로 전환되었습니다."))
+                    .catch(err => {
+                        console.error(`전체화면 전환에 실패했습니다: ${err.message} (${err.name})`);
+                    });
+            } else { // 현재 전체화면 상태라면
+                // 전체화면에서 빠져나옴
+                document.exitFullscreen()
+                    .then(() => console.log("전체화면에서 해제되었습니다."))
+                    .catch(err => {
+                        console.error(`전체화면 해제에 실패했습니다: ${err.message} (${err.name})`);
+                    });
+            }
+        }
+
+        // 키보드 이벤트 리스너 추가
+        document.addEventListener('keydown', (event) => {
+            // 사용자가 누른 키가 'f' 또는 'F'일 경우
+            if (event.key.toLowerCase() === 'f') {
+                // 이벤트의 기본 동작(예: 'f' 입력)을 막고 싶다면 아래 주석을 해제하세요.
+                // event.preventDefault();
+                toggleFullScreen();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 탭 전환 로직 추가 ---
+            const tabs = document.querySelectorAll('#info-tabs li');
+            const tabContents = document.querySelectorAll('.customer-info-component .tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 모든 탭 비활성화
+                    tabs.forEach(item => item.classList.remove('is-active'));
+                    // 클릭한 탭 활성화
+                    tab.classList.add('is-active');
+
+                    const target = tab.dataset.tab;
+
+                    // 모든 콘텐츠 숨기기
+                    tabContents.forEach(content => {
+                        content.classList.remove('is-active');
+                    });
+                    // 대상 콘텐츠 보이기
+                    document.getElementById(target).classList.add('is-active');
+                });
+            });
+
+
+            // 상품 상세 정보 표시 로직
+            const productItems = document.querySelectorAll('.product-item');
+            const detailsSection = document.getElementById('product-details-section');
+            const detailsPlaceholder = document.getElementById('product-details-placeholder');
+            const detailsContainer = document.getElementById('product-details-container');
+            const detailsTitle = document.getElementById('product-details-title');
+            const detailsContent = document.getElementById('product-details-content');
+
+            // 샘플 데이터 (리스트 형태로 수정)
+            const productDetailsData = {
+                '예금': [
+                    { '계좌번호': '110-234-567890', '상품명': '직장인우대통장', '잔액': '₩ 3,450,120', '신규일': '2022-03-15' },
+                    { '계좌번호': '110-111-222333', '상품명': 'U드림 저축예금', '잔액': '₩ 50,000', '신규일': '2023-08-01' }
+                ],
+                '적금': [
+                    { '계좌번호': '220-123-987654', '상품명': '자유적금', '잔액': '₩ 1,200,000', '신규일': '2023-01-20' }
+                ],
+                '카드': { '상태': '미보유'},
+                '펀드': [
+                    { '계좌번호': '440-789-654321', '상품명': '쏠쏠한 펀드', '평가금액': '₩ 876,500', '수익률': '+5.21%' }
+                ],
+                '주택청약': [
+                    { '계좌번호': '330-555-123456', '상품명': '주택청약종합저축', '인정금액': '₩ 5,500,000', '납입회차': '60회' }
+                ],
+                '방카': { '상태': '미보유' },
+                '신탁': { '상태': '미보유' },
+                '여신': { '상태': '미보유' },
+                '외환': { '상태': '미보유' },
+            };
+
+            productItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const productName = item.dataset.product;
+                    const currentlySelected = document.querySelector('.product-item.is-selected');
+
+                    if (currentlySelected === item) {
+                        item.classList.remove('is-selected');
+                        detailsContainer.style.display = 'none';
+                        detailsPlaceholder.style.display = 'flex';
+                        return;
+                    }
+
+                    if (currentlySelected) {
+                        currentlySelected.classList.remove('is-selected');
+                    }
+
+                    item.classList.add('is-selected');
+
+                    const details = productDetailsData[productName];
+                    detailsContent.innerHTML = ''; // 내용 초기화
+
+                    if (Array.isArray(details)) {
+                        // 데이터가 배열이면 테이블 생성
+                        detailsTitle.textContent = `${productName} 보유 목록`;
+                        const table = document.createElement('table');
+                        table.className = 'table is-fullwidth is-hoverable is-striped is-narrow';
+
+                        // 테이블 헤더 생성
+                        const thead = document.createElement('thead');
+                        const headerRow = document.createElement('tr');
+                        const headers = Object.keys(details[0]);
+                        headers.forEach(headerText => {
+                            const th = document.createElement('th');
+                            th.textContent = headerText;
+                            headerRow.appendChild(th);
+                        });
+                        thead.appendChild(headerRow);
+                        table.appendChild(thead);
+
+                        // 테이블 바디 생성
+                        const tbody = document.createElement('tbody');
+                        details.forEach(account => {
+                            const row = document.createElement('tr');
+                            headers.forEach(header => {
+                                const td = document.createElement('td');
+                                td.textContent = account[header];
+                                row.appendChild(td);
+                            });
+                            tbody.appendChild(row);
+                        });
+                        table.appendChild(tbody);
+                        detailsContent.appendChild(table);
+
+                    } else {
+                        // 데이터가 객체이면 기존 방식대로 p 태그 생성
+                        detailsTitle.textContent = `${productName} 상세 정보`;
+                        for (const [key, value] of Object.entries(details)) {
+                            const p = document.createElement('p');
+                            p.innerHTML = `<strong>${key}:</strong> ${value}`;
+                            detailsContent.appendChild(p);
+                        }
+                    }
+
+                    detailsPlaceholder.style.display = 'none';
+                    detailsContainer.style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
