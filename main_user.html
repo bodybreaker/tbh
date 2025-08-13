@@ -78,14 +78,14 @@
 
         /* 각 기능 섹션 스타일 */
         .nav-section {
-            background-color: rgba(0, 255, 166, 0.23);
-            backdrop-filter: blur(5px);
+            background-color: #ffffff;
             border-radius: 8px;
-            padding: 0.5rem 1rem;
+            padding: 0rem 0rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
             height: 42px;
+            margin-left: -5px;
         }
 
         /* 아이콘 색상 통일 */
@@ -155,22 +155,9 @@
         .u_nav_btn_grouped:hover {
             background-color: rgba(255, 255, 255, 0.1) !important;
         }
-        .u_nav_btn_grouped.is-logout {
-            color: #ff0000 !important;
-        }
-        .u_nav_btn_grouped.is-logout:hover {
-            color: white !important;
-            background-color: rgba(237, 202, 201, 0.5) !important;
-        }
         .u_nav_btn_grouped .icon {
             color: white !important;
             margin-right: 0.4em !important;
-        }
-        .u_nav_btn_grouped.is-logout .icon {
-            color: #f84747 !important;
-        }
-        .u_nav_btn_grouped.is-logout:hover .icon {
-            color: #f84747 !important;
         }
 
         /* 3. Main Content Area */
@@ -326,16 +313,18 @@
         }
 
         /* 4. Footer Area */
-        .u_main_footer {
-            padding: 1.5rem;
-            background-color: #ffffff;
-            border-top: 1px solid #dbdbdb;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            flex-shrink: 0;
+        /* 바로가기 버튼 영역 */
+        .u_main_start_wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 700px;
+            margin: 0 auto;
+            margin-top: 20px;
+            position: relative;
         }
-
         .u_main_start_btn {
-            width: 100%;
+            width: 80%;
             font-size: 1.25rem;
             font-weight: 700;
             padding: 10px;
@@ -481,16 +470,16 @@
                         <span class="icon"><i class="fas fa-angle-right"></i></span>
                     </button>
                 </div>
+
+                <!-- 업무 바로가기 버튼 -->
+                <div class="u_main_start_wrapper">
+                    <button class="button is-large u_main_start_btn">
+                        <span class="icon is-large"><i class="fas fa-comments"></i></span>
+                        <span>상담 시작</span>
+                    </button>
+                </div>
             </div>
         </main>
-
-        <!-- 하단 상담 시작 버튼 -->
-        <footer class="u_main_footer">
-            <button class="button is-large u_main_start_btn">
-                <span class="icon is-large"><i class="fas fa-comments"></i></span>
-                <span>상담 시작</span>
-            </button>
-        </footer>
     </div>
 
     <!-- 판매인력 정보 모달 -->
@@ -499,13 +488,6 @@
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">금융상품 판매인력 정보</p>
-                <div class="buttons">
-                    <button class="button is-info is-small">
-                        <span class="icon"><i class="fas fa-address-card"></i></span>
-                        <span>명함전송</span>
-                    </button>
-                    <button class="delete" aria-label="close"></button>
-                </div>
             </header>
             <section class="modal-card-body">
                 <div class="columns is-vcentered">
