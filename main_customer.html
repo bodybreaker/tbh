@@ -802,6 +802,58 @@
         .customer-info-component .account-table th {
             font-weight: 700;
         }
+        
+        /* 업무 앱 바로가기 */
+        .apps-launcher-container {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2rem;
+            z-index: 999;
+        }
+
+        /* 앱 목록을 담을 패널 스타일 */
+        .apps-panel {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
+            padding: 0.75rem;
+            width: 280px;
+            /* 아래에서 위로 올라오는 애니메이션 효과 */
+            opacity: 0;
+            transform: translateY(40px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        /* is-active 클래스가 추가될 때 패널을 표시 */
+        .apps-panel.is-active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* 각 앱 아이템 스타일 */
+        .app-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 6px;
+            color: #4a4a4a;
+            transition: background-color 0.2s ease;
+        }
+
+        .app-item:hover {
+            background-color: #f5f5f5;
+            color: #363636;
+        }
+
+        .app-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 1rem;
+            border-radius: 6px;
+            object-fit: cover; /* 이미지가 비율을 유지하며 채우도록 설정 */
+        }
     </style>
 </head>
 
@@ -1239,10 +1291,35 @@
                         <a href="#" class="button is-light is-outlined is-small">로그전송</a>
                         <a href="#" class="button is-light is-outlined is-small">기기정보</a>
                         <a href="#" class="button is-light is-outlined is-small">금융계산기</a>
+                        <a id="appsLauncherBtn" href="#" class="button is-light is-outlined is-small">업무 앱</a>
                     </div>
                 </div>
             </div>
         </footer>
+
+        <div class="apps-launcher-container">
+            <div id="appsPanel" class="apps-panel">
+                <p class="menu-label" style="padding: 0 0.75rem 0.5rem;">
+                    업무 앱 바로가기
+                </p>
+                <a href="#" class="app-item">
+                    <img class="app-icon" src="app_icons/cretop.png"/>
+                    <span>크레탑</span>
+                </a>
+                <a href="#" class="app-item">
+                    <img class="app-icon" src="app_icons/dart.png"/>
+                    <span>전자공시</span>
+                </a>
+                <a href="#" class="app-item">
+                    <img class="app-icon" src="app_icons/power.jpg"/>
+                    <span>파워기업검색</span>
+                </a>
+                <a href="#" class="app-item" onclick="">
+                    <img class="app-icon" src="app_icons/bizline.jpg"/>
+                    <span>비즈라인</span>
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1417,6 +1494,25 @@
                 icon.classList.add('fa-plus');
             }
         }
+
+        // 업무 앱 바로가기 버튼
+        // 변경점: 버튼 ID를 'appsLauncherBtn'으로 변경
+        const launcherButton = document.getElementById('appsLauncherBtn');
+        const appsPanel = document.getElementById('appsPanel');
+
+        // 버튼 클릭 이벤트 리스너
+        launcherButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            appsPanel.classList.toggle('is-active');
+        });
+
+        // 패널 외부를 클릭했을 때 패널을 닫는 이벤트 리스너
+        document.addEventListener('click', (event) => {
+            // 클릭된 요소가 패널이나 버튼이 아닐 경우 패널을 닫음
+            if (appsPanel.classList.contains('is-active') && !appsPanel.contains(event.target) && !launcherButton.contains(event.target)) {
+                appsPanel.classList.remove('is-active');
+            }
+        });
     </script>
 </body>
 
