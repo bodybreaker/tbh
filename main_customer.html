@@ -967,7 +967,7 @@
                                 <p class="card-header-title">고객 종합 정보</p>
                                 <a href="#" style="margin: auto 0.75rem;" id="btn_extend" onclick="extend_card()">
                                     <span class="icon is-small">
-                                        <i class="fas fa-plus"></i>
+                                        <i class="fas fa-plus" id="icon_extend"></i>
                                     </span>
                                 </a>
                             </header>
@@ -1402,9 +1402,20 @@
         function extend_card(){
             const leftPanel = document.getElementById('leftPanel');
             const rightPanel = document.getElementById('rightPanel');
+            const icon = document.getElementById('icon_extend')
             leftPanel.classList.toggle('is-hidden-snb');
             rightPanel.classList.toggle('is-8');
             rightPanel.classList.toggle('is-12');
+
+            if (leftPanel.classList.contains('is-hidden-snb')) {
+                // 숨겨졌다면: 오른쪽 화살표 아이콘과 '패널 보이기' 텍스트로 변경
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-minus');
+            } else {
+                // 보인다면: 왼쪽 화살표 아이콘과 '패널 숨기기' 텍스트로 변경
+                icon.classList.remove('fa-minus');
+                icon.classList.add('fa-plus');
+            }
         }
     </script>
 </body>
