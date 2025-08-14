@@ -303,6 +303,21 @@
         }
 
         /* 카드 섹션: 남은 공간을 차지하며, 내부 행들을 세로로 배치 */
+        #leftPanel, #rightPanel { /* rightPanel을 선택자에 추가 */
+            transition: all 0.2s ease-in-out;
+        }
+
+        #leftPanel {
+            overflow: hidden;
+        }
+
+        #leftPanel.is-hidden-snb {
+            max-width: 0 !important;
+            padding: 0;
+            margin: 0;
+            opacity: 0;
+        }
+
         .card-section {
             margin-top: -5px;
             flex-grow: 1;
@@ -871,7 +886,7 @@
                 <div class="control has-icons-left">
                     <input class="input" type="search" placeholder="어떤 업무를 하시겠습니까?(업무 명 or 거래코드 입력)" id="searchInput">
                     <span class="icon is-left">
-                        <i class="fas fa-search"></i>
+                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </span>
                 </div>
                 <!-- 추천 검색어 표시 영역 -->
@@ -945,11 +960,16 @@
                     </div>
                 </div>
                 <!-- 오른쪽 컬럼 -->
-                <div class="column is-8" id="right-column-container">
+                <div class="column is-8" id="rightPanel">
                     <div class="customer-info-component" id="customer-acc-card">
                         <div class="card">
                             <header class="card-header">
                                 <p class="card-header-title">고객 종합 정보</p>
+                                <a href="#" style="margin: auto 0.75rem;" id="btn_extend" onclick="extend_card()">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-plus"></i>
+                                    </span>
+                                </a>
                             </header>
                             <div class="card-content">
                                 <!-- Tab Navigation -->
@@ -1378,6 +1398,14 @@
                 });
             });
         });
+
+        function extend_card(){
+            const leftPanel = document.getElementById('leftPanel');
+            const rightPanel = document.getElementById('rightPanel');
+            leftPanel.classList.toggle('is-hidden-snb');
+            rightPanel.classList.toggle('is-8');
+            rightPanel.classList.toggle('is-12');
+        }
     </script>
 </body>
 
