@@ -606,10 +606,11 @@
         }
 
         .customer-info-component .tabs.is-fullwidth li.is-active a {
-            border-bottom-color: #485fc7;
+            border-bottom-color: #009675;
             /* Bulma 정보 색상 */
-            color: #485fc7;
+            color: #ffffff;
             font-weight: 700;
+            background-color: #2bddb7;
         }
 
         /* --- 탭 콘텐츠 스타일 수정 --- */
@@ -817,12 +818,13 @@
             border-radius: 8px;
             box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
             padding: 0.75rem;
-            width: 280px;
+            width: 170px;
             /* 아래에서 위로 올라오는 애니메이션 효과 */
             opacity: 0;
             transform: translateY(40px);
             visibility: hidden;
             transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            font-size: 0.8rem;
         }
 
         /* is-active 클래스가 추가될 때 패널을 표시 */
@@ -848,11 +850,18 @@
         }
 
         .app-icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 1rem;
+            width: 30px;
+            height: 30px;
+            margin-right: 0.2rem;
             border-radius: 6px;
             object-fit: cover; /* 이미지가 비율을 유지하며 채우도록 설정 */
+        }
+
+        /*가입 서비스 타이틀*/
+        .service-title{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
@@ -936,9 +945,9 @@
             <!-- 검색 바 -->
             <div class="field search-bar">
                 <div class="control has-icons-left">
-                    <input class="input" type="search" placeholder="어떤 업무를 하시겠습니까?(업무 명 or 거래코드 입력)" id="searchInput">
+                    <input class="input" type="search" placeholder="찾으시는 업무를 검색하세요 (예: 예금 신규)" id="searchInput">
                     <span class="icon is-left">
-                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                        <i class="fas fa-search"></i>
                     </span>
                 </div>
                 <!-- 추천 검색어 표시 영역 -->
@@ -980,6 +989,9 @@
                                 </div>
                             </div>
                         </div>
+                        <footer class="card-footer">
+                            <progress class="progress is-primary is-small" max="100"></progress>
+                        </footer>
                     </div>
                     <div class="card" id="quick-link-card">
                         <header class="card-header">
@@ -1009,6 +1021,9 @@
                                         class="category-badge is-etc">기타</span><span>서류함</span></a>
                             </div>
                         </div>
+                        <footer class="card-footer">
+                            <progress class="progress is-primary is-small" max="100"></progress>
+                        </footer>
                     </div>
                 </div>
                 <!-- 오른쪽 컬럼 -->
@@ -1036,7 +1051,7 @@
                                 <div id="products" class="tab-content is-active">
                                     <!-- 보유 상품 및 서비스 목록 -->
                                     <div>
-                                        <h6 class="title is-6 has-text-left mb-2">가입 서비스</h6>
+                                        <h6 class="title is-6 has-text-left mb-2 service-title"><span>가입 서비스</span> <span class="is-size-7 has-text-weight-light has-text-grey-light is-flex is-align-items-center">최근 업데이트: 10:53 <button class="button is-white is-small has-text-grey-light"><i class="fas fa-sync-alt"></i></i></button></span> </h6>
                                         <div class="services-grid mb-4">
                                             <div class="service-item is-subscribed">
                                                 <span class="icon-check"><i class="fas fa-check-circle"></i></span>
@@ -1108,7 +1123,7 @@
                                             <div
                                                 class="is-flex is-justify-content-space-between is-align-items-center mb-2">
                                                 <h6 id="product-details-title" class="title is-6 mb-0"></h6>
-                                                <button class="button is-small is-link is-light">
+                                                <button class="button is-small is-link is-outlined">
                                                     <span class="icon is-small"><i
                                                             class="fas fa-search-plus"></i></span>
                                                     <span>전계좌조회</span>
@@ -1275,6 +1290,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <footer class="card-footer">
+                                <progress class="progress is-primary is-small" max="100"></progress>
+                            </footer>
                         </div>
                     </div>
                 </div>
@@ -1288,10 +1306,10 @@
                 </div>
                 <div class="level-right">
                     <div class="buttons">
-                        <a href="#" class="button is-light is-outlined is-small">로그전송</a>
-                        <a href="#" class="button is-light is-outlined is-small">기기정보</a>
-                        <a href="#" class="button is-light is-outlined is-small">금융계산기</a>
-                        <a id="appsLauncherBtn" href="#" class="button is-light is-outlined is-small">업무 앱</a>
+                        <a href="#" class="button is-light is-outlined is-small"> <span class="icon" style="margin-right: 2px;"><i class="fas fa-envelope-open-text"></i></span> 로그전송</a>
+                        <a href="#" class="button is-light is-outlined is-small"> <span class="icon" style="margin-right: 2px;"><i class="fas fa-laptop"></i></span> 기기정보</a>
+                        <a href="#" class="button is-light is-outlined is-small"> <span class="icon" style="margin-right: 2px;"><i class="fas fa-calculator"></i></span> 금융계산기</a>
+                        <a id="appsLauncherBtn" href="#" class="button is-light is-outlined is-primary is-small is-focused"> <span class="icon" style="margin-right: 2px;"><i class="fab fa-windows"></i></span> Apps</a>
                     </div>
                 </div>
             </div>
