@@ -638,6 +638,8 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            
             // 점내/점외 토글
             const toggle = document.querySelector('.u_main_nav_status_toggle');
             if (toggle) {
@@ -693,7 +695,7 @@
             const searchInput = document.getElementById('searchInput');
             const relatedSearches = document.getElementById('relatedSearches');
             const mockRelated = ['예금 신규', '담보 대출', '신용카드 발급', '해외 송금', '펀드 가입'];
-
+            searchInput.focus();
             searchInput.addEventListener('input', () => {
                 if (searchInput.value.length > 0) {
                     relatedSearches.innerHTML = '';
