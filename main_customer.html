@@ -457,22 +457,20 @@
             margin-top: 10px;
             /* 이미지와 배지 사이 간격 */
         }
-
+        /* 개인사업자 */
         .profile-customer-type-badge.is-private-biz {
             background-color: #ffac33;
         }
 
-        /* 개인사업자 */
+        /* 법인사업자 */
         .profile-customer-type-badge.is-corporate-biz {
             background-color: #48c774;
         }
 
-        /* 법인사업자 */
+        /* 개인 */
         .profile-customer-type-badge.is-individual {
             background-color: #3273dc;
         }
-
-        /* 개인 */
 
         /* 빠른 링크 카드 버튼 스타일 */
         .quick-links-grid {
@@ -872,7 +870,7 @@
         <nav class="navbar u_main_nav" role="navigation" aria-label="main navigation">
             <div class="navbar-content-wrapper">
                 <!-- 로고 (좌측 유지) -->
-                <a class="navbar-item u_main_nav_logo" href="#">
+                <a class="navbar-item u_main_nav_logo" href="#" id="loadingBtn">
                     <img src="bank_logo_white.png" alt="Bank Logo">
                 </a>
 
@@ -974,23 +972,27 @@
                                 <div class="cust-profile-info">
                                     <div class="profile-image-section">
                                         <img id="profileImage"
-                                            src="profile_customer.png"
-                                            alt="고객 프로필 사진" class="cust-profile-image">
+                                            src="profile_customer_m.png"
+                                            alt="고객 프로필 사진" class="cust-profile-image"> <!-- 고객 성별이 남성일 경우 -->
+                                        <!--<img id="profileImage"
+                                            src="profile_customer_f.png"
+                                            alt="고객 프로필 사진" class="cust-profile-image"> --> <!-- 고객 성별이 여성일 경우 -->
                                         <div class="profile-customer-type-badge is-private-biz">개인사업자</div>
+                                        <!-- <div class="profile-customer-type-badge is-corporate-biz">법인사업자</div>
+                                        <div class="profile-customer-type-badge is-individual">개인</div> -->
                                     </div>
                                     <div class="customer-details">
                                         <p><strong>고객명:</strong> 박서준</p>
                                         <p><strong>고객번호:</strong> 1111111</p>
                                         <p><strong>전화번호:</strong> 010-9876-5432</p>
                                         <p><strong>이메일:</strong> sj.park@email.com</p>
-                                        <p><strong>대리인:</strong> <span>박지민 <span
-                                                    class="tag is-info is-light">2523523525</span></span></p>
+                                        <p><strong>대리인:</strong> <span>박지민 <span class="tag is-info is-light">2523523525</span></span></p> <!-- 대리인 있을 경우 노출 -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <footer class="card-footer">
-                            <progress class="progress is-primary is-small" max="100"></progress>
+                            <progress class="progress is-primary is-small is-hidden" max="100"></progress>
                         </footer>
                     </div>
                     <div class="card" id="quick-link-card">
@@ -1022,7 +1024,7 @@
                             </div>
                         </div>
                         <footer class="card-footer">
-                            <progress class="progress is-primary is-small" max="100"></progress>
+                            <progress class="progress is-primary is-small is-hidden" max="100"></progress>
                         </footer>
                     </div>
                 </div>
@@ -1291,7 +1293,7 @@
                                 </div>
                             </div>
                             <footer class="card-footer">
-                                <progress class="progress is-primary is-small" max="100"></progress>
+                                <progress class="progress is-primary is-small is-hidden" max="100"></progress>
                             </footer>
                         </div>
                     </div>
@@ -1531,6 +1533,19 @@
                 appsPanel.classList.remove('is-active');
             }
         });
+
+
+        // 로딩 이벤트 샘플
+        const loadingBtn = document.getElementById('loadingBtn');
+        loadingBtn.addEventListener('click',(event)=>{
+
+            const pgList = document.querySelectorAll('.progress');
+            console.log(pgList);
+
+            pgList.forEach(p=>{
+                p.classList.toggle('is-hidden');
+            })
+        })
     </script>
 </body>
 
